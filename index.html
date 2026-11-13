@@ -1,0 +1,446 @@
+<!doctype html>
+<html lang="sk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#080B14">
+<meta name="color-scheme" content="dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Ander">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" href="icons/icon-192.png">
+<link rel="manifest" href="manifest.webmanifest">
+<title>Ander</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<style>
+:root {
+  --bg: #080B14;
+  --surface: #10152A;
+  --surface-2: #161C35;
+  --line: #222A47;
+  --ink: #F3F5FA;
+  --muted: #8C95B0;
+  --faint: #5D6684;
+  --blue: #2F7CFF;
+  --blue-hi: #5C9BFF;
+  --blue-soft: rgba(47, 124, 255, .15);
+  --good: #2FD27A;
+  --warn: #FFB547;
+  --bad: #FF5D6C;
+  --font: "Inter", -apple-system, system-ui, sans-serif;
+  --nav-h: 64px;
+}
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html { background: var(--bg); }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font); font-size: 16px; line-height: 1.5; -webkit-font-smoothing: antialiased; -webkit-text-size-adjust: 100%; }
+[hidden] { display: none !important; }
+svg { display: block; }
+
+.app {
+  max-width: 520px; margin: 0 auto;
+  padding: max(14px, env(safe-area-inset-top)) max(18px, env(safe-area-inset-right)) calc(var(--nav-h) + 28px + env(safe-area-inset-bottom)) max(18px, env(safe-area-inset-left));
+}
+.head { display: flex; align-items: center; gap: 12px; padding: 8px 0 18px; }
+.avatar { width: 44px; height: 44px; border-radius: 50%; background: var(--blue); display: grid; place-items: center; font-weight: 800; font-size: 20px; flex: none; }
+.head h1 { margin: 0; font-size: 21px; font-weight: 700; letter-spacing: -.02em; line-height: 1.2; }
+.head .date { color: var(--muted); font-size: 14px; }
+.head .date::first-letter { text-transform: uppercase; }
+.bell { margin-left: auto; width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--line); background: var(--surface); display: grid; place-items: center; color: var(--muted); position: relative; }
+.bell.on { color: var(--blue-hi); }
+.bell.on::after { content: ""; position: absolute; top: 9px; right: 10px; width: 7px; height: 7px; border-radius: 50%; background: var(--good); }
+.bell svg { width: 20px; height: 20px; }
+
+.view { display: flex; flex-direction: column; gap: 14px; }
+.title { font-size: 26px; font-weight: 800; letter-spacing: -.025em; margin: 2px 0 0; }
+.label { font-size: 13px; font-weight: 600; color: var(--muted); margin: 0; letter-spacing: .01em; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 18px; }
+
+.hero { border-radius: 22px; padding: 20px; background: linear-gradient(140deg, #2F7CFF 0%, #2457D6 100%); position: relative; overflow: hidden; }
+.hero .label { color: rgba(255,255,255,.78); text-transform: uppercase; font-size: 12px; letter-spacing: .08em; }
+.hero p.big { margin: 8px 0 0; font-size: 22px; line-height: 1.32; font-weight: 700; letter-spacing: -.015em; text-wrap: pretty; position: relative; }
+.hero::after { content: ""; position: absolute; right: -48px; bottom: -64px; width: 180px; height: 180px; border-radius: 50%; border: 22px solid rgba(255,255,255,.08); }
+
+.chips { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.chip { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 12px; min-width: 0; }
+.chip .v { font-size: 22px; font-weight: 800; letter-spacing: -.02em; font-variant-numeric: tabular-nums; line-height: 1.1; white-space: nowrap; }
+.chip .k { font-size: 12px; color: var(--muted); margin-top: 2px; }
+.good { color: var(--good); } .warn { color: var(--warn); } .bad { color: var(--bad); }
+.pill { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 600; padding: 3px 9px; border-radius: 999px; }
+.pill.good { background: rgba(47,210,122,.14); } .pill.warn { background: rgba(255,181,71,.14); } .pill.bad { background: rgba(255,93,108,.14); }
+
+.goals { list-style: none; margin: 10px 0 0; padding: 0; }
+.goals li { display: grid; grid-template-columns: 24px 1fr; gap: 10px; padding: 12px 0; border-top: 1px solid var(--line); font-size: 15px; }
+.goals li:first-child { border-top: 0; padding-top: 2px; }
+.goals li::before { content: ""; width: 20px; height: 20px; border-radius: 6px; border: 2px solid var(--faint); margin-top: 1px; }
+.tip { border-left: 3px solid var(--blue); border-radius: 0; padding: 4px 0 4px 14px; }
+.tip p { margin: 6px 0 0; font-size: 15px; }
+.news { color: var(--muted); font-size: 14px; margin: 0; }
+
+.ring { display: grid; grid-template-columns: 120px 1fr; gap: 18px; align-items: center; }
+.ring svg { width: 120px; height: 120px; transform: rotate(-90deg); }
+.ring .bg { stroke: var(--surface-2); } .ring .fg { stroke: var(--blue); stroke-linecap: round; }
+.ring .pct { position: relative; }
+.ring .pct span { position: absolute; inset: 0; display: grid; place-items: center; font-weight: 800; font-size: 22px; transform: none; }
+.ring .big { font-size: 34px; font-weight: 800; letter-spacing: -.03em; line-height: 1; font-variant-numeric: tabular-nums; }
+.ring .big small { font-size: 16px; color: var(--faint); font-weight: 600; letter-spacing: 0; }
+.ring p { margin: 6px 0 0; color: var(--muted); font-size: 14px; }
+.ring p b { color: var(--ink); font-weight: 600; }
+
+.spark { margin-top: 14px; }
+.spark svg { width: 100%; height: 64px; }
+.spark .row { display: flex; justify-content: space-between; color: var(--faint); font-size: 12px; margin-top: 4px; }
+
+.tiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.tile { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 16px; display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.tile .v { font-size: 30px; font-weight: 800; letter-spacing: -.03em; line-height: 1; font-variant-numeric: tabular-nums; }
+.tile .s { color: var(--muted); font-size: 13px; }
+.bar { height: 6px; border-radius: 4px; background: var(--surface-2); overflow: hidden; }
+.bar b { display: block; height: 100%; border-radius: 4px; }
+.bg-good { background: var(--good); } .bg-warn { background: var(--warn); } .bg-bad { background: var(--bad); }
+
+.yt .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 12px; }
+.yt .grid div { min-width: 0; }
+.yt .grid b { display: block; font-size: 20px; font-weight: 800; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+.yt .grid span { font-size: 12px; color: var(--muted); }
+.yt .top { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--line); font-size: 14px; color: var(--muted); }
+.yt .top b { color: var(--ink); font-weight: 600; display: block; font-size: 15px; }
+.muted { color: var(--muted); font-size: 14px; margin: 6px 0 0; }
+
+.idea { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 16px; display: grid; grid-template-columns: 40px 1fr; gap: 12px; }
+.idea .n { width: 40px; height: 40px; border-radius: 12px; background: var(--blue-soft); color: var(--blue-hi); display: grid; place-items: center; font-weight: 800; font-size: 16px; }
+.idea b { display: block; font-weight: 700; font-size: 16px; line-height: 1.35; letter-spacing: -.01em; }
+.idea span { display: block; color: var(--muted); font-size: 14px; line-height: 1.45; margin-top: 4px; }
+
+.hist details { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; margin-bottom: 10px; }
+.hist summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 14px 16px; }
+.hist summary::-webkit-details-marker { display: none; }
+.hist .d { font-weight: 600; } .hist .d::first-letter { text-transform: uppercase; }
+.hist .m { color: var(--muted); font-size: 13px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.hist .body { padding: 0 16px 16px; display: flex; flex-direction: column; gap: 10px; font-size: 15px; }
+.hist .body p { margin: 0; }
+
+.btn { appearance: none; border: 0; width: 100%; background: var(--blue); color: #fff; font: 700 16px/1 var(--font); padding: 16px; border-radius: 999px; cursor: pointer; }
+.btn:active { transform: scale(.98); }
+.btn[disabled] { opacity: .6; }
+.notify { display: flex; flex-direction: column; gap: 10px; }
+.notify h2 { margin: 0; font-size: 18px; font-weight: 700; }
+.notify p { margin: 0; color: var(--muted); font-size: 15px; }
+.msg { font-size: 14px; } .msg:empty { display: none; } .msg.ok { color: var(--good); } .msg.err { color: var(--bad); }
+.empty h2 { margin: 6px 0 4px; font-size: 19px; font-weight: 700; }
+.empty p { margin: 0; color: var(--muted); }
+
+.nav {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 5;
+  background: rgba(8, 11, 20, .9); -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px);
+  border-top: 1px solid var(--line);
+  padding: 6px max(10px, env(safe-area-inset-right)) calc(6px + env(safe-area-inset-bottom)) max(10px, env(safe-area-inset-left));
+}
+.nav div { max-width: 520px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); }
+.nav button { appearance: none; background: none; border: 0; color: var(--faint); font: 600 11px/1 var(--font); display: flex; flex-direction: column; align-items: center; gap: 5px; padding: 8px 0; cursor: pointer; }
+.nav button svg { width: 24px; height: 24px; }
+.nav button[aria-current="page"] { color: var(--blue-hi); }
+
+.install { min-height: 86vh; display: flex; flex-direction: column; justify-content: center; gap: 22px; padding: 10px 2px; }
+.install img { width: 88px; height: 88px; border-radius: 22px; }
+.install h1 { font-size: 40px; font-weight: 800; letter-spacing: -.03em; margin: 0; line-height: 1.05; }
+.install > p { color: var(--muted); margin: 0; font-size: 17px; max-width: 32ch; }
+.steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.steps li { display: grid; grid-template-columns: 32px 1fr; align-items: center; gap: 12px; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 14px; font-size: 16px; }
+.steps .k { width: 32px; height: 32px; border-radius: 50%; background: var(--blue); display: grid; place-items: center; font-weight: 800; }
+.steps svg { width: 19px; height: 19px; display: inline; vertical-align: -4px; color: var(--blue-hi); }
+</style>
+</head>
+<body>
+<div class="app">
+  <section class="install" id="install" hidden>
+    <img src="icons/apple-touch-icon.png" alt="">
+    <h1>Ander</h1>
+    <p>Tvoj ranný brífing. Každé ráno ti pípne, čo máš dnes robiť.</p>
+    <ol class="steps">
+      <li><span class="k">1</span><span>Dole v Safari ťukni na <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-label="Zdieľať"><path d="M12 3v12"/><path d="M8 7l4-4 4 4"/><path d="M6 11H5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-8a1 1 0 0 0-1-1h-1"/></svg> Zdieľať</span></li>
+      <li><span class="k">2</span><span>Posuň nižšie a vyber <b>Pridať na plochu</b></span></li>
+      <li><span class="k">3</span><span>Otvor <b>Ander</b> z plochy a zapni pípnutie</span></li>
+    </ol>
+  </section>
+
+  <div id="shell" hidden>
+    <header class="head">
+      <div class="avatar">A</div>
+      <div><h1>Ahoj, Ander</h1><div class="date" id="date"></div></div>
+      <div class="bell" id="bell" aria-label="Pípnutie"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10 21h4"/></svg></div>
+    </header>
+
+    <section class="view" data-view="dnes">
+      <div class="card notify" id="notify" hidden>
+        <h2>Zapni ranné pípnutie</h2>
+        <p>Každé ráno ti Ander pošle, čo máš dnes robiť, a tvoje čísla.</p>
+        <button class="btn" id="notifyBtn" type="button">Zapnúť pípnutie</button>
+        <div class="msg" id="notifyMsg" role="status"></div>
+      </div>
+      <div id="vDnes" class="view"></div>
+    </section>
+    <section class="view" data-view="kanal" hidden><h2 class="title">Kanál</h2><div id="vKanal" class="view"></div></section>
+    <section class="view" data-view="napady" hidden><h2 class="title">Nápady</h2><div id="vNapady" class="view"></div></section>
+    <section class="view" data-view="historia" hidden><h2 class="title">História</h2><div id="vHist" class="hist"></div></section>
+  </div>
+</div>
+
+<nav class="nav" id="nav" hidden>
+  <div>
+    <button type="button" data-go="dnes" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>Dnes</button>
+    <button type="button" data-go="kanal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 20v-8M12 20V5M19 20v-5"/></svg>Kanál</button>
+    <button type="button" data-go="napady"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.4 1 1.1 1 1.8V16h5v-.3c0-.7.4-1.4 1-1.8A6 6 0 0 0 12 3z"/></svg>Nápady</button>
+    <button type="button" data-go="historia"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>História</button>
+  </div>
+</nav>
+
+<script>
+(function () {
+  var VAPID = 'BH5Paa9soRMgrKi7insSBBkl58jwpwRFjPpXrhLqgsU7LDOG_Nb39PKryZ7tiMV83qWXYlpYu_ezgXJyUIJZ_zU';
+  var REG = 'https://ntfy.sh/ander-a9f4b48x';
+  var GOAL = 4000, DEADLINE = new Date('2027-02-12T12:00:00'), SKIP_AVG = 53;
+
+  var $ = function (id) { return document.getElementById(id); };
+  var standalone = window.navigator.standalone === true || matchMedia('(display-mode: standalone)').matches;
+  var local = /^(localhost|127\.0\.0\.1)$/.test(location.hostname);
+  var SVGNS = 'http://www.w3.org/2000/svg';
+
+  function el(tag, cls, text) { var n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = String(text); return n; }
+  function sv(tag, attrs) { var n = document.createElementNS(SVGNS, tag); for (var k in attrs) n.setAttribute(k, attrs[k]); return n; }
+  function num(v) { return typeof v === 'number' && isFinite(v) ? v : null; }
+  function fmt(n) { return Math.round(n).toLocaleString('sk-SK'); }
+  function den(iso) { var d = new Date(iso + 'T12:00:00'); return isNaN(d) ? (iso || '') : d.toLocaleDateString('sk-SK', { weekday: 'long', day: 'numeric', month: 'numeric' }); }
+  function dnesIso() { var d = new Date(); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); }
+  function treba(subs) { var w = Math.max(1, (DEADLINE - new Date()) / 6048e5); return Math.max(0, Math.ceil((GOAL - subs) / w)); }
+  function trieda(p) { return p >= 1 ? 'good' : p >= .7 ? 'warn' : 'bad'; }
+  function skipTrieda(s) { return s < 50 ? 'good' : s <= SKIP_AVG + 2 ? 'warn' : 'bad'; }
+
+  $('date').textContent = new Date().toLocaleDateString('sk-SK', { weekday: 'long', day: 'numeric', month: 'long' });
+
+  /* ---------- úložisko v mobile ---------- */
+  function db() {
+    return new Promise(function (res, rej) {
+      var r = indexedDB.open('ander', 1);
+      r.onupgradeneeded = function () { r.result.createObjectStore('brifingy', { keyPath: 'datum' }); };
+      r.onsuccess = function () { res(r.result); }; r.onerror = function () { rej(r.error); };
+    });
+  }
+  function vsetky() {
+    return db().then(function (d) {
+      return new Promise(function (res, rej) {
+        var q = d.transaction('brifingy').objectStore('brifingy').getAll();
+        q.onsuccess = function () { res(q.result.sort(function (a, b) { return String(b.datum).localeCompare(String(a.datum)); })); };
+        q.onerror = function () { rej(q.error); };
+      });
+    });
+  }
+
+  /* ---------- kúsky ---------- */
+  function chips(b) {
+    var subs = num(b.odberatelia), w = num(b.za_tyzden), sk = num(b.skip);
+    if (subs == null && w == null && sk == null) return null;
+    var g = el('div', 'chips');
+    function chip(v, k, cls) { var c = el('div', 'chip'); c.appendChild(el('div', 'v' + (cls ? ' ' + cls : ''), v)); c.appendChild(el('div', 'k', k)); g.appendChild(c); }
+    if (subs != null) chip(fmt(subs), 'odberateľov');
+    if (w != null) chip((w >= 0 ? '+' : '') + fmt(w), 'za týždeň', trieda(w / (subs != null ? treba(subs) : 104)));
+    if (sk != null) chip(Math.round(sk) + ' %', 'skip reelov', skipTrieda(sk));
+    return g;
+  }
+  function cieleCard(b) {
+    if (!Array.isArray(b.ciele) || !b.ciele.length) return null;
+    var c = el('div', 'card'); c.appendChild(el('p', 'label', 'Ciele na dnes'));
+    var ul = el('ul', 'goals'); b.ciele.forEach(function (x) { ul.appendChild(el('li', null, x)); });
+    c.appendChild(ul); return c;
+  }
+  function tipCard(b) {
+    if (!b.pripomienka) return null;
+    var c = el('div', 'card'), t = el('div', 'tip');
+    t.appendChild(el('p', 'label', 'Pripomienka')); t.appendChild(el('p', null, b.pripomienka)); c.appendChild(t); return c;
+  }
+  function ideaList(b) {
+    if (!Array.isArray(b.napady) || !b.napady.length) return null;
+    var w = el('div', 'view');
+    b.napady.slice(0, 5).forEach(function (n, i) {
+      var c = el('div', 'idea'); c.appendChild(el('div', 'n', i + 1));
+      var t = el('div'); t.appendChild(el('b', null, typeof n === 'string' ? n : (n && n.nazov) || ''));
+      if (n && n.preco) t.appendChild(el('span', null, n.preco));
+      c.appendChild(t); w.appendChild(c);
+    });
+    return w;
+  }
+
+  function goalRing(b) {
+    var subs = num(b.odberatelia); if (subs == null) return null;
+    var c = el('div', 'card'), r = el('div', 'ring');
+    var pct = Math.min(1, subs / GOAL), R = 50, C = 2 * Math.PI * R;
+    var wrap = el('div', 'pct'), s = sv('svg', { viewBox: '0 0 120 120' });
+    s.appendChild(sv('circle', { cx: 60, cy: 60, r: R, fill: 'none', 'stroke-width': 12, class: 'bg' }));
+    s.appendChild(sv('circle', { cx: 60, cy: 60, r: R, fill: 'none', 'stroke-width': 12, class: 'fg', 'stroke-dasharray': (C * pct).toFixed(1) + ' ' + C.toFixed(1) }));
+    wrap.appendChild(s); wrap.appendChild(el('span', null, Math.round(pct * 100) + ' %'));
+    r.appendChild(wrap);
+    var t = el('div'); t.appendChild(el('p', 'label', 'Cieľ do 12. 2.'));
+    var big = el('div', 'big', fmt(subs)); big.appendChild(el('small', null, ' / 4 000')); t.appendChild(big);
+    var dni = Math.max(0, Math.ceil((DEADLINE - new Date()) / 864e5));
+    var p = el('p'); p.appendChild(el('b', null, dni + ' dní')); p.appendChild(document.createTextNode(', treba +' + treba(subs) + ' týždenne')); t.appendChild(p);
+    r.appendChild(t); c.appendChild(r);
+    var rast = Array.isArray(b.rast) ? b.rast.filter(function (x) { return typeof x === 'number'; }) : [];
+    if (rast.length > 2) {
+      var sp = el('div', 'spark'), W = 300, H = 64, mn = Math.min.apply(null, rast), mx = Math.max.apply(null, rast), rg = (mx - mn) || 1;
+      var pts = rast.map(function (v, i) { return [(i / (rast.length - 1) * W).toFixed(1), (H - 6 - (v - mn) / rg * (H - 12)).toFixed(1)]; });
+      var g = sv('svg', { viewBox: '0 0 ' + W + ' ' + H, preserveAspectRatio: 'none' });
+      g.appendChild(sv('path', { d: 'M' + pts.map(function (p) { return p.join(' '); }).join(' L') + ' L' + W + ' ' + H + ' L0 ' + H + ' Z', fill: 'rgba(47,124,255,.14)' }));
+      g.appendChild(sv('path', { d: 'M' + pts.map(function (p) { return p.join(' '); }).join(' L'), fill: 'none', stroke: '#5C9BFF', 'stroke-width': 2.5, 'stroke-linejoin': 'round', 'vector-effect': 'non-scaling-stroke' }));
+      sp.appendChild(g);
+      var row = el('div', 'row'); row.appendChild(el('span', null, 'pred ' + (rast.length - 1) + ' dňami')); row.appendChild(el('span', null, 'dnes')); sp.appendChild(row);
+      c.appendChild(sp);
+    }
+    return c;
+  }
+  function tiles(b) {
+    var w = num(b.za_tyzden), sk = num(b.skip), subs = num(b.odberatelia);
+    if (w == null && sk == null) return null;
+    var g = el('div', 'tiles');
+    if (w != null) {
+      var need = subs != null ? treba(subs) : 104, cls = trieda(w / need), t = el('div', 'tile');
+      t.appendChild(el('p', 'label', 'Noví za týždeň'));
+      t.appendChild(el('div', 'v ' + cls, (w >= 0 ? '+' : '') + fmt(w)));
+      var bar = el('div', 'bar'), f = el('b', 'bg-' + cls); f.style.width = Math.max(4, Math.min(100, w / need * 100)) + '%'; bar.appendChild(f); t.appendChild(bar);
+      t.appendChild(el('div', 's', 'treba +' + need)); g.appendChild(t);
+    }
+    if (sk != null) {
+      var c2 = skipTrieda(sk), t2 = el('div', 'tile');
+      t2.appendChild(el('p', 'label', 'Skip reelov'));
+      t2.appendChild(el('div', 'v ' + c2, Math.round(sk) + ' %'));
+      var bar2 = el('div', 'bar'), f2 = el('b', 'bg-' + c2); f2.style.width = Math.min(100, sk) + '%'; bar2.appendChild(f2); t2.appendChild(bar2);
+      t2.appendChild(el('div', 's', 'tvoj priemer ' + SKIP_AVG + ' %')); g.appendChild(t2);
+    }
+    return g;
+  }
+  function ytCard(b) {
+    var c = el('div', 'card yt'); c.appendChild(el('p', 'label', 'YouTube za 7 dní'));
+    var y = b.yt;
+    if (!y || typeof y !== 'object') { c.appendChild(el('p', 'muted', 'Videnia, hodiny pozerania a najlepšie video sa tu zobrazia po prepojení YouTube.')); return c; }
+    var g = el('div', 'grid');
+    function stat(v, k) { if (num(v) == null) return; var d = el('div'); d.appendChild(el('b', null, fmt(v))); d.appendChild(el('span', null, k)); g.appendChild(d); }
+    stat(y.videnia, 'videní'); stat(y.hodiny, 'hodín pozerania'); stat(y.odberatelia, 'nových odb.');
+    c.appendChild(g);
+    if (y.top && y.top.nazov) { var t = el('div', 'top'); t.appendChild(el('b', null, y.top.nazov)); t.appendChild(document.createTextNode('Najlepšie video týždňa' + (num(y.top.videnia) != null ? ', ' + fmt(y.top.videnia) + ' videní' : ''))); c.appendChild(t); }
+    return c;
+  }
+
+  /* ---------- obrazovky ---------- */
+  function add(box, list) { list.forEach(function (x) { if (x) box.appendChild(x); }); }
+
+  function render(list) {
+    var vD = $('vDnes'), vK = $('vKanal'), vN = $('vNapady'), vH = $('vHist');
+    [vD, vK, vN, vH].forEach(function (x) { x.textContent = ''; });
+    if (!list.length) {
+      var e = el('div', 'card empty'); e.appendChild(el('p', 'label', 'Zatiaľ ticho'));
+      e.appendChild(el('h2', null, 'Prvý brífing príde ráno okolo 7:30'));
+      e.appendChild(el('p', null, 'Keď pípne, ťukni na správu a uvidíš tu, čo máš dnes robiť.'));
+      vD.appendChild(e);
+      vK.appendChild(el('p', 'muted', 'Čísla kanála prídu s prvým brífingom.'));
+      vN.appendChild(el('p', 'muted', 'Nápady prídu s prvým brífingom.'));
+      vH.appendChild(el('p', 'muted', 'Zatiaľ žiadne staršie brífingy.'));
+      return;
+    }
+    var b = list[0];
+    var hero = el('div', 'hero');
+    hero.appendChild(el('p', 'label', b.datum === dnesIso() ? 'Dnes urob' : 'Posledný brífing, ' + den(b.datum)));
+    hero.appendChild(el('p', 'big', b.dnes || (b.ciele && b.ciele[0]) || 'Pozri si ciele a nápady.'));
+    add(vD, [hero, chips(b), cieleCard(b), tipCard(b), b.nove ? el('p', 'news', b.nove) : null]);
+
+    add(vK, [goalRing(b), tiles(b), ytCard(b)]);
+
+    var ideas = ideaList(b);
+    if (ideas) vN.appendChild(ideas); else vN.appendChild(el('p', 'muted', 'Dnes bez nových nápadov.'));
+
+    var old = list.slice(1);
+    if (!old.length) vH.appendChild(el('p', 'muted', 'Zatiaľ žiadne staršie brífingy.'));
+    old.forEach(function (o) {
+      var d = el('details'), s = el('summary');
+      s.appendChild(el('span', 'd', den(o.datum)));
+      var meta = [];
+      if (num(o.odberatelia) != null) meta.push(fmt(o.odberatelia));
+      if (num(o.za_tyzden) != null) meta.push((o.za_tyzden >= 0 ? '+' : '') + o.za_tyzden);
+      if (num(o.skip) != null) meta.push('skip ' + Math.round(o.skip) + ' %');
+      s.appendChild(el('span', 'm', meta.join(' · '))); d.appendChild(s);
+      var body = el('div', 'body');
+      if (o.dnes) body.appendChild(el('p', null, o.dnes));
+      add(body, [ideaList(o), tipCard(o)]);
+      d.appendChild(body); vH.appendChild(d);
+    });
+  }
+  function nacitaj() { return vsetky().then(render).catch(function () { render([]); }); }
+
+  /* ---------- spodné menu ---------- */
+  function choď(name) {
+    document.querySelectorAll('[data-view]').forEach(function (v) { if (v.parentElement.id === 'shell') v.hidden = v.getAttribute('data-view') !== name; });
+    document.querySelectorAll('[data-go]').forEach(function (bt) { if (bt.getAttribute('data-go') === name) bt.setAttribute('aria-current', 'page'); else bt.removeAttribute('aria-current'); });
+    window.scrollTo(0, 0);
+  }
+  document.querySelectorAll('[data-go]').forEach(function (bt) { bt.addEventListener('click', function () { choď(bt.getAttribute('data-go')); }); });
+
+  /* ---------- pípnutie ---------- */
+  function kluc(b64) {
+    var p = '='.repeat((4 - b64.length % 4) % 4), raw = atob((b64 + p).replace(/-/g, '+').replace(/_/g, '/'));
+    var out = new Uint8Array(raw.length); for (var i = 0; i < raw.length; i++) out[i] = raw.charCodeAt(i); return out;
+  }
+  function sprava(text, ok) { var m = $('notifyMsg'); m.textContent = text; m.className = 'msg ' + (ok ? 'ok' : 'err'); }
+  function zvoncek(on) { $('bell').classList.toggle('on', !!on); }
+
+  function zapni() {
+    var btn = $('notifyBtn'); btn.disabled = true; btn.textContent = 'Zapínam…'; sprava('', true);
+    Notification.requestPermission().then(function (perm) {
+      if (perm !== 'granted') throw new Error('perm');
+      return navigator.serviceWorker.ready;
+    }).then(function (reg) {
+      return reg.pushManager.getSubscription().then(function (s) { return s || reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: kluc(VAPID) }); });
+    }).then(function (sub) {
+      return fetch(REG, { method: 'POST', body: JSON.stringify(sub) }).then(function (r) { if (!r.ok) throw new Error('net'); });
+    }).then(function () {
+      try { localStorage.setItem('ander-pipnutie', '1'); } catch (e) {}
+      btn.hidden = true; zvoncek(true);
+      sprava('Hotovo. Pípnutie je zapnuté, prvé príde ráno.', true);
+    }).catch(function (e) {
+      btn.disabled = false; btn.textContent = 'Skúsiť znova';
+      if (e && e.message === 'perm') sprava('Notifikácie sú vypnuté. Zapni ich v Nastavenia → Notifikácie → Ander.', false);
+      else if (e && e.message === 'net') sprava('Nepodarilo sa spojiť. Skontroluj internet a skús znova.', false);
+      else sprava('Niečo sa pokazilo. Skús to znova o chvíľu.', false);
+    });
+  }
+  function stavPipnutia() {
+    if (!('serviceWorker' in navigator)) return;
+    if (!('PushManager' in window) || !('Notification' in window)) {
+      $('notify').hidden = false; $('notifyBtn').hidden = true;
+      sprava('Na pípnutie treba iOS 16.4 alebo novší. Aktualizuj iPhone v Nastavenia → Všeobecné → Aktualizácia softvéru.', false);
+      return;
+    }
+    var hotovo = false; try { hotovo = localStorage.getItem('ander-pipnutie') === '1'; } catch (e) {}
+    var on = hotovo && Notification.permission === 'granted';
+    $('notify').hidden = on; zvoncek(on);
+    navigator.serviceWorker.ready.then(function (reg) { return reg.pushManager.getSubscription(); }).then(function (sub) {
+      if (!sub) { $('notify').hidden = false; zvoncek(false); }
+    });
+    $('notifyBtn').addEventListener('click', zapni);
+    $('bell').addEventListener('click', function () { choď('dnes'); $('notify').hidden = false; });
+  }
+
+  /* ---------- štart ---------- */
+  if ((!standalone && !local) || /instalacia/.test(location.search)) { $('install').hidden = false; return; }
+  $('shell').hidden = false; $('nav').hidden = false;
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js');
+    navigator.serviceWorker.addEventListener('message', function (e) { if (e.data && e.data.type === 'novy') nacitaj(); });
+  }
+  function vycisti() { if (navigator.clearAppBadge) navigator.clearAppBadge().catch(function () {}); }
+  document.addEventListener('visibilitychange', function () { if (!document.hidden) { nacitaj(); vycisti(); } });
+  vycisti(); stavPipnutia(); nacitaj();
+})();
+</script>
+</body>
+</html>
