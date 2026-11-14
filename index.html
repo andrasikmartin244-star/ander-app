@@ -72,10 +72,6 @@ svg { display: block; }
 .pill { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 600; padding: 3px 9px; border-radius: 999px; }
 .pill.good { background: rgba(47,210,122,.14); } .pill.warn { background: rgba(255,181,71,.14); } .pill.bad { background: rgba(255,93,108,.14); }
 
-.goals { list-style: none; margin: 10px 0 0; padding: 0; }
-.goals li { display: grid; grid-template-columns: 24px 1fr; gap: 10px; padding: 12px 0; border-top: 1px solid var(--line); font-size: 15px; }
-.goals li:first-child { border-top: 0; padding-top: 2px; }
-.goals li::before { content: ""; width: 20px; height: 20px; border-radius: 6px; border: 2px solid var(--faint); margin-top: 1px; }
 .tip { border-left: 3px solid var(--blue); border-radius: 0; padding: 4px 0 4px 14px; }
 .tip p { margin: 6px 0 0; font-size: 15px; }
 .news { color: var(--muted); font-size: 14px; margin: 0; }
@@ -298,12 +294,6 @@ svg { display: block; }
     if (sk != null) chip(Math.round(sk) + ' %', 'skip reelov', skipTrieda(sk));
     return g;
   }
-  function cieleCard(b) {
-    if (!Array.isArray(b.ciele) || !b.ciele.length) return null;
-    var c = el('div', 'card'); c.appendChild(el('p', 'label', 'Ciele na dnes'));
-    var ul = el('ul', 'goals'); b.ciele.forEach(function (x) { ul.appendChild(el('li', null, x)); });
-    c.appendChild(ul); return c;
-  }
   function tipCard(b) {
     if (!b.pripomienka) return null;
     var c = el('div', 'card'), t = el('div', 'tip');
@@ -507,8 +497,8 @@ svg { display: block; }
     var b = list[0];
     var hero = el('div', 'hero');
     hero.appendChild(el('p', 'label', b.datum === dnesIso() ? 'Dnes urob' : 'Posledný brífing, ' + den(b.datum)));
-    hero.appendChild(el('p', 'big', b.dnes || (b.ciele && b.ciele[0]) || 'Pozri si ciele a nápady.'));
-    add(vD, [hero, chips(b), notionTeaser(b), cieleCard(b), tipCard(b), b.nove ? el('p', 'news', b.nove) : null]);
+    hero.appendChild(el('p', 'big', b.dnes || (b.ciele && b.ciele[0]) || 'Pozri si videá a nápady.'));
+    add(vD, [hero, chips(b), notionTeaser(b), tipCard(b), b.nove ? el('p', 'news', b.nove) : null]);
 
     add(vV, videaView(b));
     if (b.notion) $('vVideaSub').textContent = cerstvost(b);
