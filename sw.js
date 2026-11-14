@@ -1,4 +1,4 @@
-var VERZIA = 'ander-v4';
+var VERZIA = 'ander-v5';
 var SHELL = ['./', 'index.html', 'manifest.webmanifest', 'icons/icon-192.png', 'icons/icon-512.png', 'icons/apple-touch-icon.png'];
 
 self.addEventListener('install', function (e) {
@@ -15,7 +15,8 @@ self.addEventListener('fetch', function (e) {
   var req = e.request;
   if (req.method !== 'GET') return;
   if (req.mode === 'navigate') {
-    e.respondWith(fetch(req).then(function (res) {
+    // cache: 'no-cache' = vždy sa opýtaj servera na novú verziu appky (GitHub inak drží starú 10 minút)
+    e.respondWith(fetch(req, { cache: 'no-cache' }).then(function (res) {
       var copy = res.clone(); caches.open(VERZIA).then(function (c) { c.put('index.html', copy); });
       return res;
     }).catch(function () { return caches.match('index.html'); }));

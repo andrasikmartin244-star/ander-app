@@ -582,12 +582,20 @@ svg { display: block; }
   /* ---------- štart ---------- */
   if ((!standalone && !local) || /instalacia/.test(location.search)) { $('install').hidden = false; return; }
   $('shell').hidden = false; $('nav').hidden = false;
+  var registracia = null;
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('sw.js');
+    var malKontrolu = !!navigator.serviceWorker.controller, obnovene = false;
+    navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).then(function (r) { registracia = r; }).catch(function () {});
     navigator.serviceWorker.addEventListener('message', function (e) { if (e.data && e.data.type === 'novy') nacitaj(); });
+    // nová verzia appky prevzala kontrolu: raz obnov stránku, aby sa ukázala
+    navigator.serviceWorker.addEventListener('controllerchange', function () { if (malKontrolu && !obnovene) { obnovene = true; location.reload(); } });
   }
   function vycisti() { if (navigator.clearAppBadge) navigator.clearAppBadge().catch(function () {}); }
-  document.addEventListener('visibilitychange', function () { if (!document.hidden) { nacitaj(); vycisti(); } });
+  document.addEventListener('visibilitychange', function () {
+    if (document.hidden) return;
+    nacitaj(); vycisti();
+    if (registracia) registracia.update().catch(function () {});
+  });
   vycisti(); stavPipnutia(); nacitaj();
 })();
 </script>
