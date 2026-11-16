@@ -174,10 +174,21 @@ svg { display: block; }
 
 .empty h2 { margin: 6px 0 4px; font-size: 19px; font-weight: 700; }
 .empty p { margin: 0; color: var(--muted); }
-.tovaren { display: block; color: inherit; text-decoration: none; background: linear-gradient(160deg, rgba(47,124,255,.16), var(--surface) 60%); }
-.tovaren h2 { margin: 6px 0 4px; font-size: 19px; font-weight: 700; }
+.tovaren { display: block; color: inherit; text-decoration: none; background: linear-gradient(160deg, rgba(47,124,255,.18), var(--surface) 62%); }
+.tovaren h2 { margin: 6px 0 4px; font-size: 21px; font-weight: 800; letter-spacing: -.02em; }
 .tovaren p { margin: 0; color: var(--muted); }
-.tovaren .btn { display: block; text-align: center; margin-top: 14px; }
+.tovaren .btn { display: block; text-align: center; margin-top: 16px; }
+.linka { display: flex; flex-direction: column; gap: 8px; position: relative; }
+.linka::before { content: ""; position: absolute; left: 31px; top: 24px; bottom: 24px; width: 2px; background: var(--line); }
+.st-row { position: relative; display: grid; grid-template-columns: 34px minmax(0, 1fr) auto; gap: 12px; align-items: center; padding: 13px 14px; border-radius: 16px; background: var(--surface); border: 1px solid var(--line); color: inherit; text-decoration: none; }
+.st-row .k { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; font-size: 14px; color: #0a0f1c; background: var(--c); }
+.st-row b { display: block; font-size: 16px; font-weight: 700; }
+.st-row .d { display: block; color: var(--muted); font-size: 13px; margin-top: 2px; line-height: 1.3; }
+.st-row .cnt { font-size: 24px; font-weight: 800; letter-spacing: -.02em; font-variant-numeric: tabular-nums; text-align: right; line-height: 1; }
+.st-row .you { display: block; margin-top: 5px; font-size: 11px; font-weight: 700; color: #FFDCAE; text-align: right; white-space: nowrap; }
+.st-row.act { border-color: var(--c); box-shadow: inset 3px 0 0 var(--c); }
+.st-row.zero .cnt { color: var(--faint); }
+.tv-note { margin: 2px 4px 0; color: var(--faint); font-size: 13px; }
 
 .nav {
   position: fixed; left: 0; right: 0; bottom: 0; z-index: 5;
@@ -185,7 +196,7 @@ svg { display: block; }
   border-top: 1px solid var(--line);
   padding: 6px max(10px, env(safe-area-inset-right)) calc(6px + env(safe-area-inset-bottom)) max(10px, env(safe-area-inset-left));
 }
-.nav div { max-width: 520px; margin: 0 auto; display: grid; grid-template-columns: repeat(5, 1fr); }
+.nav div { max-width: 560px; margin: 0 auto; display: grid; grid-template-columns: repeat(6, 1fr); }
 .nav button { appearance: none; background: none; border: 0; color: var(--faint); font: 600 11px/1 var(--font); display: flex; flex-direction: column; align-items: center; gap: 5px; padding: 8px 0; cursor: pointer; }
 .nav button svg { width: 24px; height: 24px; }
 .nav button[aria-current="page"] { color: var(--blue-hi); }
@@ -230,6 +241,7 @@ svg { display: block; }
       <div id="vDnes" class="view"></div>
     </section>
     <section class="view" data-view="videa" hidden><h2 class="title">Videá</h2><p class="sub" id="vVideaSub"></p><div id="vVidea" class="view"></div></section>
+    <section class="view" data-view="tovaren" hidden><h2 class="title">Továreň</h2><p class="sub" id="vTovarenSub"></p><div id="vTovaren" class="view"></div></section>
     <section class="view" data-view="kanal" hidden><h2 class="title">Kanál</h2><div id="vKanal" class="view"></div></section>
     <section class="view" data-view="napady" hidden><h2 class="title">Nápady</h2><div id="vNapady" class="view"></div></section>
     <section class="view" data-view="historia" hidden><h2 class="title">História</h2><div id="vHist" class="hist"></div></section>
@@ -240,6 +252,7 @@ svg { display: block; }
   <div>
     <button type="button" data-go="dnes" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>Dnes</button>
     <button type="button" data-go="videa"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M10 9.5v5l4.5-2.5z"/></svg>Videá</button>
+    <button type="button" data-go="tovaren"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V11l5 3v-3l5 3v-3l5 3V4h3v17z"/><path d="M7 17.5h2M12 17.5h2M17 17.5h1"/></svg>Továreň</button>
     <button type="button" data-go="kanal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 20v-8M12 20V5M19 20v-5"/></svg>Kanál</button>
     <button type="button" data-go="napady"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.4 1 1.1 1 1.8V16h5v-.3c0-.7.4-1.4 1-1.8A6 6 0 0 0 12 3z"/></svg>Nápady</button>
     <button type="button" data-go="historia"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>História</button>
@@ -460,13 +473,43 @@ svg { display: block; }
     return c;
   }
   var TOVAREN = 'https://claude.ai/artifact/THsEVwQ1Hs9SAo3xEnpJ7P';
-  function tovarenCard() {
-    var a = el('a', 'card tovaren'); a.href = TOVAREN; a.target = '_blank'; a.rel = 'noopener';
-    a.appendChild(el('p', 'label', 'Továreň'));
-    a.appendChild(el('h2', null, 'Rozhoduj rovno v továrni'));
-    a.appendChild(el('p', null, 'Nápady, scenáre, natáčanie, strih a vydanie. Klikneš a hneď sa to zapíše do Notionu. Otvára sa v Claude, kde si prihlásený.'));
-    a.appendChild(el('span', 'btn', 'Otvoriť Továreň'));
+  function doTovarne(a) { a.href = TOVAREN; a.target = '_blank'; a.rel = 'noopener'; return a; }
+  function tovarenCard(n) {
+    var a = doTovarne(el('a', 'card tovaren')), na = n ? spocitaj(n.ty) : 0;
+    a.appendChild(el('p', 'label', na ? 'Na tebe ' + na + ' ' + pl(na, 'rozhodnutie', 'rozhodnutia', 'rozhodnutí') : 'Živá linka'));
+    a.appendChild(el('h2', null, 'Rozhoduj v Továrni'));
+    a.appendChild(el('p', null, 'Chcem alebo nechcem nápad, OK na scenár, natočené, strih je OK, áno na vydanie. Každý klik sa hneď zapíše do Notionu.'));
+    a.appendChild(el('span', 'btn', 'Otvoriť živú Továreň'));
     return a;
+  }
+  var STANICE = [
+    { n: 'Výskum', c: '#6D8BFF', stav: 'Nápad', d: 'Klikneš Chcem natočiť alebo Nechcem', vyber: true },
+    { n: 'Scenáre', c: '#B78CFF', stav: 'Scenár', d: 'Píšem ich ja', moje: true },
+    { n: 'Tvoje OK', c: '#FFCF5A', stav: 'Scenár', d: 'Prečítaš scenár a klikneš OK, natočím', tvoje: true },
+    { n: 'Natáčanie', c: '#FFB347', stav: 'Natočiť', d: 'Natočíš a klikneš Natočené' },
+    { n: 'Strižňa', c: '#FF6FA8', stav: 'Strih', d: 'Strihám ja, ty klikneš Strih je OK' },
+    { n: 'Expedícia', c: '#4FD1C5', stav: 'Vydať', d: 'Klikneš Áno, naplánuj' },
+    { n: 'Výsledky', c: '#4FD18B', stav: 'Vydané', d: 'Videnia doplním každú nedeľu' }
+  ];
+  function tovarenView(b) {
+    var n = b && b.notion && typeof b.notion === 'object' ? b.notion : null;
+    var p = n && n.pocty && typeof n.pocty === 'object' ? n.pocty : null, ty = n && n.ty && typeof n.ty === 'object' ? n.ty : {};
+    var linka = el('div', 'linka');
+    STANICE.forEach(function (s, i) {
+      var vsetko = p ? num(p[s.stav]) || 0 : null, moje = num(ty[s.stav]) || 0, pocet = vsetko;
+      if (s.tvoje) pocet = p ? moje : null;
+      if (s.moje) { pocet = p ? Math.max(0, vsetko - moje) : null; moje = 0; }
+      if (s.vyber) moje = vsetko || 0;
+      var a = doTovarne(el('a', 'st-row' + (pocet ? '' : ' zero') + (moje ? ' act' : '')));
+      a.style.setProperty('--c', s.c);
+      a.appendChild(el('span', 'k', i + 1));
+      var t = el('div'); t.appendChild(el('b', null, s.n)); t.appendChild(el('span', 'd', s.d)); a.appendChild(t);
+      var r = el('div'); r.appendChild(el('div', 'cnt', pocet == null ? '–' : pocet));
+      if (moje) r.appendChild(el('span', 'you', s.vyber ? 'vyber si' : 'na tebe ' + moje));
+      a.appendChild(r);
+      linka.appendChild(a);
+    });
+    return [tovarenCard(n), linka, el('p', 'tv-note', 'Čísla sú z ranného brífingu. Živá Továreň sa otvára v Claude, kde si prihlásený. Prvýkrát povoľ Notion a Metricool.')];
   }
   function notionBtn() { var a = von(el('a', 'btn ghost')); a.appendChild(document.createTextNode('Otvoriť nástenku v Notione')); a.appendChild(ikona('ext')); return a; }
   function videaView(b) {
@@ -475,9 +518,9 @@ svg { display: block; }
       var e = el('div', 'card empty'); e.appendChild(el('p', 'label', 'Zatiaľ bez nástenky'));
       e.appendChild(el('h2', null, 'Videá z Notionu prídu s ranným brífingom'));
       e.appendChild(el('p', null, 'Každé ráno tu uvidíš, čo je na tebe a ako idú vydané videá.'));
-      return [tovarenCard(), e, notionBtn()];
+      return [e, notionBtn()];
     }
-    var out = [tovarenCard(), pipeCard(n)], karty = Array.isArray(n.karty) ? n.karty.filter(function (k) { return k && k.nazov; }) : [];
+    var out = [pipeCard(n)], karty = Array.isArray(n.karty) ? n.karty.filter(function (k) { return k && k.nazov; }) : [];
     var spolu = Math.max(spocitaj(n.ty), karty.length);
     if (karty.length) {
       var h = el('div', 'card-head'); h.appendChild(el('p', 'label', 'Na tebe')); h.appendChild(el('span', 'n', spolu)); out.push(h);
@@ -494,14 +537,15 @@ svg { display: block; }
   function add(box, list) { list.forEach(function (x) { if (x) box.appendChild(x); }); }
 
   function render(list) {
-    var vD = $('vDnes'), vV = $('vVidea'), vK = $('vKanal'), vN = $('vNapady'), vH = $('vHist');
-    [vD, vV, vK, vN, vH, $('vVideaSub')].forEach(function (x) { x.textContent = ''; });
+    var vD = $('vDnes'), vV = $('vVidea'), vK = $('vKanal'), vN = $('vNapady'), vH = $('vHist'), vT = $('vTovaren');
+    [vD, vV, vK, vN, vH, vT, $('vVideaSub'), $('vTovarenSub')].forEach(function (x) { x.textContent = ''; });
     if (!list.length) {
       var e = el('div', 'card empty'); e.appendChild(el('p', 'label', 'Zatiaľ ticho'));
       e.appendChild(el('h2', null, 'Prvý brífing príde ráno okolo 7:30'));
       e.appendChild(el('p', null, 'Keď pípne, ťukni na správu a uvidíš tu, čo máš dnes robiť.'));
       vD.appendChild(e);
       add(vV, videaView(null));
+      add(vT, tovarenView(null));
       vK.appendChild(el('p', 'muted', 'Čísla kanála prídu s prvým brífingom.'));
       vN.appendChild(el('p', 'muted', 'Nápady prídu s prvým brífingom.'));
       vH.appendChild(el('p', 'muted', 'Zatiaľ žiadne staršie brífingy.'));
@@ -515,6 +559,8 @@ svg { display: block; }
 
     add(vV, videaView(b));
     if (b.notion) $('vVideaSub').textContent = cerstvost(b);
+    add(vT, tovarenView(b));
+    $('vTovarenSub').textContent = 'Celá linka od nápadu po čísla. Ťukni a rozhodni.';
 
     add(vK, [goalRing(b), tiles(b), ytCard(b)]);
 
