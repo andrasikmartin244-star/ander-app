@@ -174,6 +174,10 @@ svg { display: block; }
 
 .empty h2 { margin: 6px 0 4px; font-size: 19px; font-weight: 700; }
 .empty p { margin: 0; color: var(--muted); }
+.tovaren { display: block; color: inherit; text-decoration: none; background: linear-gradient(160deg, rgba(47,124,255,.16), var(--surface) 60%); }
+.tovaren h2 { margin: 6px 0 4px; font-size: 19px; font-weight: 700; }
+.tovaren p { margin: 0; color: var(--muted); }
+.tovaren .btn { display: block; text-align: center; margin-top: 14px; }
 
 .nav {
   position: fixed; left: 0; right: 0; bottom: 0; z-index: 5;
@@ -455,6 +459,15 @@ svg { display: block; }
     c.appendChild(ul); c.appendChild(el('p', 'legend', 'Pruh je násobok tvojho bežného videa, čiarka je 1×.'));
     return c;
   }
+  var TOVAREN = 'https://claude.ai/artifact/THsEVwQ1Hs9SAo3xEnpJ7P';
+  function tovarenCard() {
+    var a = el('a', 'card tovaren'); a.href = TOVAREN; a.target = '_blank'; a.rel = 'noopener';
+    a.appendChild(el('p', 'label', 'Továreň'));
+    a.appendChild(el('h2', null, 'Rozhoduj rovno v továrni'));
+    a.appendChild(el('p', null, 'Nápady, scenáre, natáčanie, strih a vydanie. Klikneš a hneď sa to zapíše do Notionu. Otvára sa v Claude, kde si prihlásený.'));
+    a.appendChild(el('span', 'btn', 'Otvoriť Továreň'));
+    return a;
+  }
   function notionBtn() { var a = von(el('a', 'btn ghost')); a.appendChild(document.createTextNode('Otvoriť nástenku v Notione')); a.appendChild(ikona('ext')); return a; }
   function videaView(b) {
     var n = b && b.notion;
@@ -462,9 +475,9 @@ svg { display: block; }
       var e = el('div', 'card empty'); e.appendChild(el('p', 'label', 'Zatiaľ bez nástenky'));
       e.appendChild(el('h2', null, 'Videá z Notionu prídu s ranným brífingom'));
       e.appendChild(el('p', null, 'Každé ráno tu uvidíš, čo je na tebe a ako idú vydané videá.'));
-      return [e, notionBtn()];
+      return [tovarenCard(), e, notionBtn()];
     }
-    var out = [pipeCard(n)], karty = Array.isArray(n.karty) ? n.karty.filter(function (k) { return k && k.nazov; }) : [];
+    var out = [tovarenCard(), pipeCard(n)], karty = Array.isArray(n.karty) ? n.karty.filter(function (k) { return k && k.nazov; }) : [];
     var spolu = Math.max(spocitaj(n.ty), karty.length);
     if (karty.length) {
       var h = el('div', 'card-head'); h.appendChild(el('p', 'label', 'Na tebe')); h.appendChild(el('span', 'n', spolu)); out.push(h);
